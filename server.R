@@ -1,18 +1,16 @@
 library(shiny)
 library(gdata)
 library(corrplot)
-library(missMDA)
-library(FactoMineR)
-library(pcaMethods)
+
 library(gridExtra)
 library(png)
 library(grid)
+library(extrafont)
+loadfonts()
 
 
 source("./PCAFunc.R")
 source("./FergPlot.R")
-#devium source file super useful
-source("http://pastebin.com/raw.php?i=UyDBTA57")
 
 #Define server logic
 
@@ -64,6 +62,7 @@ shinyServer(function(input,output){
     else {
       data()
     }
+    print(input$pctitle)
   })
 
 
@@ -80,7 +79,7 @@ shinyServer(function(input,output){
     if(is.null(data()))
       return(NULL)
     else{
-  numericInput("varexp",'Percent Variation explained by this PC',.5,min=0,max=1)
+  numericInput("varexp",'Percent Variation explained by this PC',0,min=0,max=100)
     }
   })
   
@@ -91,18 +90,20 @@ shinyServer(function(input,output){
       tmp<-data()
       i<-input$Pc2Plot
       varexp<-input$varexp
+      pctitle<-input$pctit
       a<-LoadingSort(tmp[i],input$cutoff,input$NumArr)
       b<-FergusonPlotCoordinates(a)
-      if(is.null(input$varexp)){
-        plot<-FergusonPlot(b)
-      }
-      else{
-        plot<-FergusonPlot1(b,varexp)
-        
-      }
+    
+      plot<-FergusonPlot(b,varexp,pctitle)
       plot
-      }
+    }
     })
+  output$pctitle<-renderUI({
+    if(is.null(data()))
+      return(NULL)
+   
+    textInput('pctit','Title for Center of Plot',value=NULL)
+  })
   
   output$BPlot<-renderPlot({
     BasicPlot()

@@ -40,18 +40,27 @@ FergusonPlotCoordinates<-function(df){
   ymid<-vector()
   for(i in 1:nrow(df)){
     disp<-div*i
+    disp<-disp+pi/2
     angle<-c(angle,as.numeric(disp))
     
-    xstart<-10*cos(disp)
+    xstart<-6*cos(disp)
     xend<-3*cos(disp)
-    xm<-(xstart+xend)/2
+    if((disp>=pi/2)&(disp<=3*pi/2))
+      xm<-(6*cos(disp-pi/18)+3*cos(disp-pi/18))/2
+    else{
+      xm<-(6*cos(disp+pi/18)+3*cos(disp+pi/18))/2
+    }
     x1<-c(x1,as.numeric(xstart))
     x2<-c(x2,as.numeric(xend))
     xmid<-c(xmid,as.numeric(xm))
     
-    ystart<-10*sin(disp)
-    yend<-3*sin(disp)
-    ym<-(ystart+yend)/2
+    ystart<-6*sin(disp)
+    yend<-2*sin(disp)
+    if((disp>=pi/2)&(disp<=3*pi/2))
+       ym<-(6*sin(disp-pi/18)+3*sin(disp-pi/18))/2
+    else{
+       ym<-(6*sin(disp+pi/18)+3*sin(disp+pi/18))/2
+       }
     y1<-c(y1,as.numeric(ystart))
     y2<-c(y2,as.numeric(yend))
     ymid<-c(ymid,as.numeric(ym))
@@ -85,54 +94,38 @@ FergusonPlotCoordinates<-function(df){
 }
 
 #Takes a Loading from FergusonCoord, and the variance explained by this pc
-FergusonPlot<-function(arr.dat){
+FergusonPlot<-function(arr.dat,varexp=NULL,pctitle=NULL){
   b<-c(-1,0,1)
-  var.explained<-round(var.explained,digits=3)
   img<-readPNG("./PCVenn.png")
   g<-rasterGrob(img,interpolate=TRUE)
   plot.grid<-ggplot(data=arr.dat,aes(colour=val,size=val))+
+    
     scale_colour_gradient2(limits=c(-1,1),low="blue",mid="black",high="red",midpoint=0,guide='colourbar',breaks=b,labels=format(b))+
     scale_size(limits=c(0,8),guide=FALSE)+
-    theme_bw()#+coord_fixed()# +facet_grid(pc ~.)
+    theme_bw()+coord_fixed()# +facet_grid(pc ~.)
   plot.grid<-plot.grid+
+    annotation_custom(g,xmin=-2,ymin=-2,xmax=2,ymax=2)+
     scale_x_continuous(name="",limits=c(-13,13))+
     scale_y_continuous(name="",limits=c(-13,13))+
     geom_segment(data=arr.dat, aes(x=x1,y=y1,xend=x2,yend=y2,size=abs(val)*8),arrow=arrow(type='closed',length=unit(abs(arr.dat$val)/4+.1,"in")))+
-    geom_text(data=arr.dat,aes(x=center+11.5*cos(angle), y=center+11*sin(angle),label=row),colour="black",size=4)+
-    geom_text(data=arr.dat,aes(x=center+11.5*cos(angle), y=center+11*sin(angle)-.8,label=val),colour="black",size=4)+
-    annotation_custom(g,xmin=-2,ymin=-2,xmax=2,ymax=2)+
+    geom_text(data=arr.dat,aes(x=center+7.5*cos(angle), y=center+7*sin(angle),label=row),colour="black",size=5,family="Arial")+
+    #geom_text(data=arr.dat,aes(x=center+7.5*cos(angle), y=center+7*sin(angle)-.8,label=val),colour="black",size=4)+
     
-    geom_text(data=arr.dat,aes(x=center,y=center+.3,label=pc),colour="black",size=4,fontface="bold",family="Times")+
-    # geom_text(data=arr.dat,aes(x=center+3*cos(angle),y=center+3*sin(angle),hjust=0,vjust=0,angle=(txtangle*180/pi),label=val),colour="black",size=4)
-    theme(line=element_blank(),axis.text.x=element_blank(),axis.text.y=element_blank())
+    
+    geom_text(data=arr.dat,aes(x=xmid,y=ymid,hjust=.5,vjust=1,angle=(txtangle*180/3.1415926535897932384626433832795028841971693993751),label=val),colour="black",size=4)
+    if(!varexp==0)
+      plot.grid<-plot.grid+annotate("text",x=0,y=-.8,label=paste(varexp,'%'),colour='black',size=4,family='Arial')
+      
+    if(is.null(pctitle)|pctitle==''){
+      plot.grid<-plot.grid+    
+           geom_text(data=arr.dat,aes(x=center,y=center+.3,label=pc),colour="black",size=5,family="Arial")
+    }
+    else{
+      plot.grid<-plot.grid+annotate("text",x=0,y=.3,label=pctitle,colour='black',size=5,family='Arial')
+      
+    }
+    plot.grid<-plot.grid+theme(line=element_blank(),axis.text.x=element_blank(),axis.text.y=element_blank())
   return(plot.grid)
   
 }
-
-FergusonPlot1<-function(arr.dat,varexp){
-  b<-c(-1,0,1)
-  var.explained<-round(varexp,digits=3)
-  img<-readPNG("./PCVenn.png")
-  g<-rasterGrob(img,interpolate=TRUE)
-  plot.grid<-ggplot(data=arr.dat,aes(colour=val,size=val))+
-    scale_colour_gradient2(limits=c(-1,1),low="blue",mid="black",high="red",midpoint=0,guide='colourbar',breaks=b,labels=format(b))+
-    scale_size(limits=c(0,8),guide=FALSE)+
-    theme_bw()#+coord_fixed()# +facet_grid(pc ~.)
-  plot.grid<-plot.grid+
-    scale_x_continuous(name="",limits=c(-13,13))+
-    scale_y_continuous(name="",limits=c(-13,13))+
-    geom_segment(data=arr.dat, aes(x=x1,y=y1,xend=x2,yend=y2,size=abs(val)*8),arrow=arrow(type='closed',length=unit(abs(arr.dat$val)/4+.1,"in")))+
-    geom_text(data=arr.dat,aes(x=center+11.5*cos(angle), y=center+11*sin(angle),label=row),colour="black",size=4)+
-    geom_text(data=arr.dat,aes(x=center+11.5*cos(angle), y=center+11*sin(angle)-.8,label=val),colour="black",size=4)+
-    annotation_custom(g,xmin=-2,ymin=-2,xmax=2,ymax=2)+
-    
-    geom_text(data=arr.dat,aes(x=center,y=center+.3,label=pc),colour="black",size=4,fontface="bold",family="Times")+
-    annotate("text",x=0,y=-.8,label=varexp,colour='black',size=4,family='Times')+
-    # geom_text(data=arr.dat,aes(x=center+3*cos(angle),y=center+3*sin(angle),hjust=0,vjust=0,angle=(txtangle*180/pi),label=val),colour="black",size=4)
-    theme(line=element_blank(),axis.text.x=element_blank(),axis.text.y=element_blank())
-  return(plot.grid)
-}
-
-
-
 

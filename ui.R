@@ -9,7 +9,8 @@ shinyUI(pageWithSidebar(
     uiOutput("FPlot"),
     uiOutput("CutOff"),
     uiOutput("NumArr"),
-    uiOutput("varexp")
+    uiOutput("varexp"),
+    uiOutput('pctitle')
     
   ),
   
