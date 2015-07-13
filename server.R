@@ -62,7 +62,6 @@ shinyServer(function(input,output){
     else {
       data()
     }
-    print(input$pctitle)
   })
 
 

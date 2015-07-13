@@ -17,7 +17,7 @@ shinyUI(pageWithSidebar(
   mainPanel(
     tabsetPanel(
       tabPanel("Data",tableOutput("contents")),
-      tabPanel("Ferg Plot",plotOutput("BPlot"),downloadButton('downloadBplot','Download this plot'))
+      tabPanel("Syndromic Plot",plotOutput("BPlot"),downloadButton('downloadBplot','Download this plot'))
     ) 
   )
   
