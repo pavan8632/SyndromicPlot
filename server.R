@@ -25,7 +25,7 @@ shinyServer(function(input,output){
     dataFile <- input$file1
     if(is.null(dataFile))
       return(NULL)
-    x=read.csv(dataFile$datapath, header=input$header,sep=',',quote="'")
+    x=read.csv(dataFile$datapath, header=input$header,sep=',',quote="'",row.names=NULL)
     x=as.data.frame(x)
     if(rownames(x)[1]==1){
       rownames(x)=x[,1]
