@@ -1,9 +1,12 @@
 #Removes all columns with only NaN values
 library(grid)
 library(ggplot2)
-removeNA <- function(df){
+removeNACol <- function(df){
   df[ , colSums(is.na(df))!=nrow(df)]
   
+}
+removeNArow<-function(df){
+  df[rowSums(is.na(df))+1!=ncol(df) , ]
 }
 #Removes columns that have any instance of string
 removeString <-function(df){

@@ -27,14 +27,12 @@ shinyServer(function(input,output){
       return(NULL)
     x=read.csv(dataFile$datapath, header=input$header,sep=',',quote="'",row.names=NULL)
     x=as.data.frame(x)
-    if(rownames(x)[1]==1){
-      rownames(x)=x[,1]
+    x=removeNACol(x)
+    x=removeNArow(x)
+    #set rownames to first column
+    rownames(x)=x[,1]
       x[,1]=NULL
       return(x)
-    }
-    else{
-      return(x)
-    }
     
   })
  
