@@ -6,9 +6,9 @@ library(gridExtra)
 library(png)
 library(grid)
 library(extrafont)
-font_import()
-fonts()
-loadfonts(quiet=TRUE)
+#font_import()
+#fonts()
+#loadfonts(quiet=TRUE)
 
 
 source("./PCAFunc.R")

@@ -114,14 +114,14 @@ FergusonPlot<-function(arr.dat,varexp=NULL,pctitle=NULL){
     
     geom_text(data=arr.dat,aes(x=xmid,y=ymid,hjust=.5,vjust=1,angle=(txtangle*180/3.1415926535897932384626433832795028841971693993751),label=val),colour="black",size=4)
     if(!varexp==0)
-      plot.grid<-plot.grid+annotate("text",x=0,y=-.8,label=paste(varexp,'%'),colour='black',size=4,family='ArialMT')
+      plot.grid<-plot.grid+annotate("text",x=0,y=-.8,label=paste(varexp,'%'),colour='black',size=4)
       
     if(is.null(pctitle)|pctitle==''){
       plot.grid<-plot.grid+    
-           geom_text(data=arr.dat,aes(x=center,y=center+.3,label=pc),colour="black",size=5,family="ArialMT")
+           geom_text(data=arr.dat,aes(x=center,y=center+.3,label=pc),colour="black",size=5)
     }
     else{
-      plot.grid<-plot.grid+annotate("text",x=0,y=.3,label=pctitle,colour='black',size=5,family='ArialMT')
+      plot.grid<-plot.grid+annotate("text",x=0,y=.3,label=pctitle,colour='black',size=5)
       
     }
     plot.grid<-plot.grid+theme(line=element_blank(),axis.text.x=element_blank(),axis.text.y=element_blank())
