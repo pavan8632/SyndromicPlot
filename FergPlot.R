@@ -108,7 +108,7 @@ FergusonPlot<-function(arr.dat,varexp=NULL,pctitle=NULL){
     scale_x_continuous(name="",limits=c(-13,13))+
     scale_y_continuous(name="",limits=c(-13,13))+
     geom_segment(data=arr.dat, aes(x=x1,y=y1,xend=x2,yend=y2,size=abs(val)*8),arrow=arrow(type='closed',length=unit(abs(arr.dat$val)/4+.1,"in")))+
-    geom_text(data=arr.dat,aes(x=center+7.5*cos(angle), y=center+7*sin(angle),label=row),colour="black",size=5,family="Arial")+
+    geom_text(data=arr.dat,aes(x=center+7.5*cos(angle), y=center+7*sin(angle),label=row),colour="black",size=5)+
     #geom_text(data=arr.dat,aes(x=center+7.5*cos(angle), y=center+7*sin(angle)-.8,label=val),colour="black",size=4)+
     
     
