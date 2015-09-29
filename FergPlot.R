@@ -46,20 +46,28 @@ FergusonPlotCoordinates<-function(df){
     xstart<-6*cos(disp)
     xend<-3*cos(disp)
     if((disp>=pi/2)&(disp<=3*pi/2))
-      xm<-(6*cos(disp-pi/18)+3*cos(disp-pi/18))/2
+      #xm<-(6*cos(disp-pi/18)+3*cos(disp-pi/18))/2
+      xm<-(6.5*cos(disp)+3*cos(disp))/2-.3*sin(disp)
+      
     else{
-      xm<-(6*cos(disp+pi/18)+3*cos(disp+pi/18))/2
+      #xm<-(6*cos(disp+pi/18)+3*cos(disp+pi/18))/2
+      xm<-(6.5*cos(disp)+3*cos(disp))/2+.3*sin(disp)
+      
     }
     x1<-c(x1,as.numeric(xstart))
     x2<-c(x2,as.numeric(xend))
     xmid<-c(xmid,as.numeric(xm))
     
     ystart<-6*sin(disp)
-    yend<-2*sin(disp)
+    yend<-3*sin(disp)
     if((disp>=pi/2)&(disp<=3*pi/2))
-       ym<-(6*sin(disp-pi/18)+3*sin(disp-pi/18))/2
+       #ym<-(6*sin(disp-pi/18)+3*sin(disp-pi/18))/2
+      ym<-(6.5*sin(disp)+3*sin(disp))/2-.3*cos(disp)
+      
     else{
-       ym<-(6*sin(disp+pi/18)+3*sin(disp+pi/18))/2
+      # ym<-(6*sin(disp+pi/18)+3*sin(disp+pi/18))/2
+      ym<-(6.5*sin(disp)+3*sin(disp))/2+.3*cos(disp)
+      
        }
     y1<-c(y1,as.numeric(ystart))
     y2<-c(y2,as.numeric(yend))
@@ -100,7 +108,7 @@ FergusonPlot<-function(arr.dat,varexp=NULL,pctitle=NULL){
   g<-rasterGrob(img,interpolate=TRUE)
   plot.grid<-ggplot(data=arr.dat,aes(colour=val,size=val))+
     
-    scale_colour_gradient2(limits=c(-1,1),low="blue",mid="black",high="red",midpoint=0,guide='colourbar',breaks=b,labels=format(b))+
+    scale_colour_gradient2(limits=c(-1,1),low="blue",mid="white",high="red",midpoint=0,guide='colourbar',breaks=b,labels=format(b))+
     scale_size(limits=c(0,8),guide=FALSE)+
     theme_bw()+coord_fixed()# +facet_grid(pc ~.)
   plot.grid<-plot.grid+
@@ -108,7 +116,7 @@ FergusonPlot<-function(arr.dat,varexp=NULL,pctitle=NULL){
     scale_x_continuous(name="",limits=c(-13,13))+
     scale_y_continuous(name="",limits=c(-13,13))+
     geom_segment(data=arr.dat, aes(x=x1,y=y1,xend=x2,yend=y2,size=abs(val)*8),arrow=arrow(type='closed',length=unit(abs(arr.dat$val)/4+.1,"in")))+
-    geom_text(data=arr.dat,aes(x=center+7.5*cos(angle), y=center+7*sin(angle),label=row),colour="black",size=5,family="Arial")+
+    geom_text(data=arr.dat,aes(x=center+7*cos(angle), y=center+7*sin(angle),label=row),colour="black",size=5)+
     #geom_text(data=arr.dat,aes(x=center+7.5*cos(angle), y=center+7*sin(angle)-.8,label=val),colour="black",size=4)+
     
     
