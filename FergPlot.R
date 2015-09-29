@@ -119,7 +119,7 @@ FergusonPlot<-function(arr.dat,varexp=NULL,pctitle=NULL){
 
     geom_text(data=arr.dat,aes(x=center+7*cos(angle), y=center+7*sin(angle),label=row),colour="black",size=5)+
 
-    geom_text(data=arr.dat,aes(x=center+7.5*cos(angle), y=center+7*sin(angle),label=row),colour="black",size=5)+
+    #geom_text(data=arr.dat,aes(x=center+7.5*cos(angle), y=center+7*sin(angle),label=row),colour="black",size=5)+
 
     #geom_text(data=arr.dat,aes(x=center+7.5*cos(angle), y=center+7*sin(angle)-.8,label=val),colour="black",size=4)+
     
