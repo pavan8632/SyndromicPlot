@@ -45,30 +45,37 @@ FergusonPlotCoordinates<-function(df){
     
     xstart<-6*cos(disp)
     xend<-3*cos(disp)
-    if((disp>=pi/2)&(disp<=3*pi/2))
-      #xm<-(6*cos(disp-pi/18)+3*cos(disp-pi/18))/2
-      xm<-(6.5*cos(disp)+3*cos(disp))/2-.3*sin(disp)
-      
-    else{
-      #xm<-(6*cos(disp+pi/18)+3*cos(disp+pi/18))/2
-      xm<-(6.5*cos(disp)+3*cos(disp))/2+.3*sin(disp)
-      
-    }
+
+    ystart<-6*sin(disp)
+    yend<-3*sin(disp)
+#  
+# if((disp>0)&(disp<pi/2)){
+#       xm<-(7*cos(disp)+3*cos(disp))/2+.3
+#       ym<-(7*sin(disp)+3*sin(disp))/2-.3
+#     }
+#     else if ((disp>=pi/2)&(disp<=pi)){
+#       xm<-(7*cos(disp)+3*cos(disp))/2-.3
+#       
+#       ym<-(7*sin(disp)+3*sin(disp))/2-.3
+#     }
+#     
+#     else if ((disp>pi)&(disp<=3*pi/2)){
+#       xm<-(7*cos(disp)+3*cos(disp))/2+.3
+#       
+#       ym<-(7*sin(disp)+3*sin(disp))/2-.3
+#     }
+#     else{
+#       xm<-(7*cos(disp)+3*cos(disp))/2-.3
+#       
+#       ym<-(7*sin(disp)+3*sin(disp))/2-.3
+#       
+#     }
+
+    xm<- 5*cos(disp+pi/30)
+    ym<-5*sin(disp+pi/30)
     x1<-c(x1,as.numeric(xstart))
     x2<-c(x2,as.numeric(xend))
     xmid<-c(xmid,as.numeric(xm))
-    
-    ystart<-6*sin(disp)
-    yend<-3*sin(disp)
-    if((disp>=pi/2)&(disp<=3*pi/2))
-       #ym<-(6*sin(disp-pi/18)+3*sin(disp-pi/18))/2
-      ym<-(6.5*sin(disp)+3*sin(disp))/2-.3*cos(disp)
-      
-    else{
-      # ym<-(6*sin(disp+pi/18)+3*sin(disp+pi/18))/2
-      ym<-(6.5*sin(disp)+3*sin(disp))/2+.3*cos(disp)
-      
-       }
     y1<-c(y1,as.numeric(ystart))
     y2<-c(y2,as.numeric(yend))
     ymid<-c(ymid,as.numeric(ym))
@@ -110,14 +117,14 @@ FergusonPlot<-function(arr.dat,varexp=NULL,pctitle=NULL){
     
     scale_colour_gradient2(limits=c(-1,1),low="blue",mid="white",high="red",midpoint=0,guide='colourbar',breaks=b,labels=format(b))+
     scale_size(limits=c(0,8),guide=FALSE)+
-    theme_bw()+coord_fixed()# +facet_grid(pc ~.)
+    theme_bw()+coord_fixed(ratio=1)# +facet_grid(pc ~.)
   plot.grid<-plot.grid+
     annotation_custom(g,xmin=-2,ymin=-2,xmax=2,ymax=2)+
     scale_x_continuous(name="",limits=c(-13,13))+
     scale_y_continuous(name="",limits=c(-13,13))+
     geom_segment(data=arr.dat, aes(x=x1,y=y1,xend=x2,yend=y2,size=abs(val)*8),arrow=arrow(type='closed',length=unit(abs(arr.dat$val)/4+.1,"in")))+
 
-    geom_text(data=arr.dat,aes(x=center+7*cos(angle), y=center+7*sin(angle),label=row),colour="black",size=5)+
+    geom_text(data=arr.dat,aes(x=center+7.5*cos(angle), y=center+7.5*sin(angle),label=row),colour="black",size=5)+
 
     #geom_text(data=arr.dat,aes(x=center+7.5*cos(angle), y=center+7*sin(angle),label=row),colour="black",size=5)+
 

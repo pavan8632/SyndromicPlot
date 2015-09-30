@@ -70,7 +70,7 @@ shinyServer(function(input,output){
     filename=function(){paste('FergPlot',toString(input$Pc2Plot),'.pdf',sep='')},
     content=function(file){
       
-      ggsave(file, plot = BasicPlot(),width=15,height=10,units="in")
+      ggsave(file, plot = BasicPlot(),width=15,height=15,units="in")
     }
   )
   
