@@ -33,8 +33,8 @@ shinyServer(function(input,output){
     x=removeNArow(x)
     #set rownames to first column
     rownames(x)=x[,1]
-      x[,1]=NULL
-      return(x)
+    x[,1]=NULL
+    return(x)
     
   })
  
@@ -46,7 +46,7 @@ shinyServer(function(input,output){
   output$NumArr<-renderUI({
     if(is.null(data()))
       return(NULL)
-    numericInput("NumArr", "Number of Maximum Arrows for Ferg Plot, Likely will be less as all numbers <.3 will be dropped",5,min=2,max=15)
+    numericInput("NumArr", "Number of Maximum Arrows for Ferg Plot, Likely will be less as all numbers <.3 will be dropped",5,min=2,max=50)
     
   })
   output$CutOff<-renderUI({
@@ -90,7 +90,8 @@ shinyServer(function(input,output){
       i<-input$Pc2Plot
       varexp<-input$varexp
       pctitle<-input$pctit
-      a<-LoadingSort(tmp[i],input$cutoff,input$NumArr)
+      
+      a<-LoadingSort(tmp,i,input$cutoff,input$NumArr,input$order)
       b<-FergusonPlotCoordinates(a)
     
       plot<-FergusonPlot(b,varexp,pctitle)

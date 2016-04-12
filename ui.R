@@ -6,6 +6,7 @@ shinyUI(pageWithSidebar(
   sidebarPanel(
     fileInput('file1','Choose PC Loadings CSV File', accept=c('text/csv,','.csv')),
     checkboxInput('header', 'Header', TRUE),
+    checkboxInput('order','Check if order should remain as input',TRUE),
     uiOutput("FPlot"),
     uiOutput("CutOff"),
     uiOutput("NumArr"),

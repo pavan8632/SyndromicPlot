@@ -4,9 +4,20 @@ library(scales)
 #change htis later to a dirname call
 
 
-LoadingSort<-function(df,cutoff,numarr){
+LoadingSort<-function(df,i,cutoff,numarr,order){
+  col=df[i]
+  print(df)
+  ####
+  if(order==TRUE){
+    dat=subset(df,abs(df[,i])>cutoff)
+    dat=head(dat,numarr)
+    return(dat[i])
+  }
+
+ else{
+  ####
   #Creating a list of sorted variables by PC, then choosing top (numArr) ones to display)
-  data<-df[order(-abs(df[,1])), ,drop=FALSE]
+  data<-col[order(-abs(col[,1])), ,drop=FALSE]
   data.head<-head(data,numarr)
   #INITIALIZING A COUNTER
   count<-0
@@ -15,9 +26,11 @@ LoadingSort<-function(df,cutoff,numarr){
       count=count+1
     }
   }
+
   #Returns a dataframe that has a max of the highest  loading scores (+/-) above a cutoff, 
   data.head<-head(data.head,count)
   return(data.head)
+ }
 }
 
 

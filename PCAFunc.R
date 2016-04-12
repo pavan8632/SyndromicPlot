@@ -20,14 +20,13 @@ removeZero<-function(df){
   df[ ,colSums(df,na.rm=TRUE)!=0]
 }
 #Returns a list of all columns with no missing data
-complete <-function(df){
-  dq<-df[,!(colSums(is.na(df))>0)]
-}
+#complete <-function(df){
+#  dq<-df[,!(colSums(is.na(df))>0)]
+#}
 #Returns a list of all columns with missing values
 incomplete<-function(df){
   dq<-df[,(colSums(is.na(df))>0)]
 }
-#will take a  list, and make a dictionary where the colnames=colnames
 
 #Standardizes based off z score across columns
 stdMean <- function(df){
